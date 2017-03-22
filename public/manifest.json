@@ -1,6 +1,6 @@
 {
-  "short_name": "create-react-pwa",
-  "name": "Create React PWApp",
+  "short_name": "WebBLE",
+  "name": "Web BLE - Candle Demo",
   "icons": [
     {
       "src": "favicon.ico",
