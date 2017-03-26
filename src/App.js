@@ -6,7 +6,7 @@ import './App.css';
 
 const CANDLE_SERVICE_UUID = 0xFF02;
 const CANDLE_COLOR_UUID = 0xFFFC;
-const CANDLE_EFFECT_UUID = 0xFFF8;
+const CANDLE_EFFECT_UUID = 0xFFFB;
 
 const decoder = new TextDecoder('utf-8')
 
@@ -16,7 +16,7 @@ const App = React.createClass({
       connected: false,
       authenticated: false,
       candleState : "off",
-      color: '#FF0000',
+      color: {r:0,g:0,b:0},
       device: null,
       server: null,
       characteristics: {}
@@ -24,10 +24,9 @@ const App = React.createClass({
   },
   componentWillMount() {
     if (navigator.bluetooth === undefined) {
-      console.log('No navigator.bluetooth found.')
+      console.error('No navigator.bluetooth found.')
     }
     screen.orientation.lock('portrait').catch(e => e)
-    document.documentElement.style.setProperty('--candle-color', '#000000')
   },
   request() {
     let options = {
@@ -65,7 +64,7 @@ const App = React.createClass({
   },
   setColor(rgb) {
     const {r,g,b} = rgb
-    console.log('hex to rgb', r,g,b)
+
     return Promise.resolve()
       .then(_ => {
         const data = [0x00, r, g, b, 0x04, 0x00, 0x01, 0x00]
@@ -73,32 +72,37 @@ const App = React.createClass({
       })
   },
   toggleCandle(e) {
+    let color = this.state.color
+
     if (this.state.candleState === 'off') {
-      let color = this.state.color
-      if (color === '#000000') {
-        color = '#FF0000'
+      const {r,g,b} = color
+
+      if (r===0 && g===0 && b===0) {
+        color = {r:255,g:255,b:255}
       }
+
       this.setState({
         candleState: "on",
         color: color
       })
-      document.documentElement.style.setProperty('--candle-color', color);
     } else {
       this.setState({
         candleState: "off"
       })
-      document.documentElement.style.setProperty('--candle-color', '#000000');
+      color = {r:0,g:0,b:0}
     }
+    this.setColor(color)
+    const {r,g,b} = color
+    document.documentElement.style.setProperty('--candle-color', `rgb(${r},${g},${b})`);
   },
   handleColorChange(color) {
-    console.log(color)
     this.setColor(color.rgb).then(col => {
-      console.log(col)
       this.setState({
         candleState: 'on',
-        color: color.hex
+        color: color.rgb
       })
-      document.documentElement.style.setProperty('--candle-color', color.hex)
+      const {r,g,b} = color.rgb
+      document.documentElement.style.setProperty('--candle-color', `rgb(${r},${g},${b})`)
     })
   },
   handleConnection() {
@@ -107,12 +111,24 @@ const App = React.createClass({
         return this.connect()
       })
       .then(_ => {
-        const candleColor = this.readCharacteristicValue(CANDLE_COLOR_UUID)
-          .then(this.decodeString)
-        console.log('connected', candleColor)
+        return this.readCharacteristicValue(CANDLE_COLOR_UUID)
+      })
+      .then(data => {
+        const r = data.getUint8(1)
+        const g = data.getUint8(2)
+        const b = data.getUint8(3)
+
+        let candleState = true
+        if (r===0 && b===0 && b===0) {
+          candleState = false
+        }
+
         this.setState({
-          connected: true
+          connected: true,
+          color: {r,g,b},
+          candleState
         })
+        document.documentElement.style.setProperty('--candle-color', `rgb(${r},${g},${b})`)
       })
       .catch(error => {
         console.error('There was an error!', error)
@@ -157,14 +173,13 @@ const App = React.createClass({
     return characteristic.readValue()
       .then(value => {
         for (var i=0, a=[]; i<value.bytelength; i++) { a.push(value.getUint8(i))}
-        console.log('READ', characteristic.uuid, a, value)
+        console.debug('READ', characteristic.uuid, a, value)
         return value
       })
   },
   writeCharacteristicValue(characteristicUuid, value) {
-    console.log(this.state.characteristics)
     const characteristic = this.state.characteristics[characteristicUuid]
-    console.log('WRITE', characteristic.uuid, value)
+    console.debug('WRITE', characteristic.uuid, value)
     return characteristic.writeValue(value)
   },
   decodeString(data) {
