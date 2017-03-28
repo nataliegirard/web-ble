@@ -19,7 +19,8 @@ const App = React.createClass({
       color: {r:0,g:0,b:0},
       device: null,
       server: null,
-      characteristics: {}
+      characteristics: {},
+      message: null
     }
   },
   componentWillMount() {
@@ -57,6 +58,13 @@ const App = React.createClass({
           })
         ])
       })
+  },
+  onDeviceDisconnected() {
+    console.log('device disconnected')
+    this.setState({
+      connected: false,
+      message: 'You have been disconnected from the device. Please reconnect.'
+    })
   },
   getCandleColor() {
     return this.readCharacteristicValue(CANDLE_COLOR_UUID)
@@ -111,16 +119,26 @@ const App = React.createClass({
         return this.connect()
       })
       .then(_ => {
+        this.setState({
+          message: null
+        })
         return this.readCharacteristicValue(CANDLE_COLOR_UUID)
       })
       .then(data => {
-        const r = data.getUint8(1)
-        const g = data.getUint8(2)
-        const b = data.getUint8(3)
+        let r = data.getUint8(1)
+        let g = data.getUint8(2)
+        let b = data.getUint8(3)
 
         let candleState = true
         if (r===0 && b===0 && b===0) {
           candleState = false
+        }
+
+        if (!r) {
+          console.log('there is no set color')
+          r = 255
+          g = 255
+          b = 255
         }
 
         this.setState({
@@ -129,6 +147,7 @@ const App = React.createClass({
           candleState
         })
         document.documentElement.style.setProperty('--candle-color', `rgb(${r},${g},${b})`)
+        this.state.device.addEventListener('gattserverdisconnected', this.onDeviceDisconnected)
       })
       .catch(error => {
         console.error('There was an error!', error)
@@ -148,12 +167,12 @@ const App = React.createClass({
         <div className="App-header">
           <h2>Web BLE - Candle Demo</h2>
         </div>
-        {this.state.authenticated ? (
+        {this.state.authenticated && this.state.connected ? (
           <Candle toggleCandle={this.toggleCandle} handleColorChange={this.handleColorChange} color={this.state.color} />
         ) : this.state.connected ? (
           <Authentication handleAuthentication={this.handleAuthentication} />
         ) : (
-          <Connection handleConnection={this.handleConnection} />
+          <Connection message={this.state.message} handleConnection={this.handleConnection} />
         )}
       </div>
     );

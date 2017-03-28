@@ -21,6 +21,12 @@
   height: 100%;
 }
 
+.App-message {
+  font-size: 24px;
+  color: red;
+  margin: 24px;
+}
+
 .App-instructions {
   font-size: 18px;
 }
