@@ -1,4 +1,6 @@
 import React from 'react';
+import { AppBar } from 'material-ui';
+import { MuiThemeProvider }  from 'material-ui/styles';
 import Connection from './Connection';
 import Authentication from './Authentication';
 import Candle from './Candle';
@@ -13,6 +15,7 @@ const decoder = new TextDecoder('utf-8')
 const App = React.createClass({
   getInitialState() {
     return {
+      connecting: false,
       connected: false,
       authenticated: false,
       candleState : "off",
@@ -114,6 +117,10 @@ const App = React.createClass({
     })
   },
   handleConnection() {
+    this.setState({
+      connecting: true
+    })
+
     this.request()
       .then(_ => {
         return this.connect()
@@ -142,6 +149,7 @@ const App = React.createClass({
         }
 
         this.setState({
+          connecting: false,
           connected: true,
           color: {r,g,b},
           candleState
@@ -150,6 +158,9 @@ const App = React.createClass({
         this.state.device.addEventListener('gattserverdisconnected', this.onDeviceDisconnected)
       })
       .catch(error => {
+        this.setState({
+          connecting: false
+        })
         console.error('There was an error!', error)
       })
   },
@@ -163,18 +174,18 @@ const App = React.createClass({
   },
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Web BLE - Candle Demo</h2>
+      <MuiThemeProvider>
+        <div className="App">
+          <AppBar title='Web BLE - Candle Demo'  titleStyle={{fontSize: '20px'}} />
+          {this.state.authenticated && this.state.connected ? (
+            <Candle toggleCandle={this.toggleCandle} handleColorChange={this.handleColorChange} color={this.state.color} />
+          ) : this.state.connected ? (
+            <Authentication handleAuthentication={this.handleAuthentication} />
+          ) : (
+            <Connection message={this.state.message} connecting={this.state.connecting} handleConnection={this.handleConnection} />
+          )}
         </div>
-        {this.state.authenticated && this.state.connected ? (
-          <Candle toggleCandle={this.toggleCandle} handleColorChange={this.handleColorChange} color={this.state.color} />
-        ) : this.state.connected ? (
-          <Authentication handleAuthentication={this.handleAuthentication} />
-        ) : (
-          <Connection message={this.state.message} handleConnection={this.handleConnection} />
-        )}
-      </div>
+      </MuiThemeProvider>
     );
   },
   cacheCharacteristic(service, characteristicUuid) {

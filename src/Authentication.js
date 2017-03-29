@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextField } from 'material-ui';
 
 const Authentication = React.createClass({
   render() {
@@ -6,10 +7,7 @@ const Authentication = React.createClass({
       <div className="App-container">
       	<p className="App-instructions">Enter the code on the device to access controls.</p>
 				<div className="App-input-group">
-					<input className="App-input" onChange={this.props.handleAuthentication} type="text" required />
-					<span className="App-input-highlight"></span>
-					<span className="App-input-bar"></span>
-					<label className="App-input-label">Device code</label>
+					<TextField floatingLabelText='Device code' onChange={this.props.handleAuthentication} />
 				</div>
       </div>
     );

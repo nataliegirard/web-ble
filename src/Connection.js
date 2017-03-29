@@ -1,4 +1,5 @@
 import React from 'react';
+import { RaisedButton, CircularProgress } from 'material-ui';
 
 const Connection = React.createClass({
   render() {
@@ -6,7 +7,10 @@ const Connection = React.createClass({
       <div className="App-container">
         <p className="App-message">{this.props.message}</p>
         <p className="App-instructions">Connect to a PlayBulb Candle</p>
-        <button className="App-connect-button" onClick={this.props.handleConnection}>Connect</button>
+        { this.props.connecting ?
+          <CircularProgress /> :
+          <RaisedButton label="Connect" primary={true} onTouchTap={this.props.handleConnection} />
+        }
       </div>
     );
   }
