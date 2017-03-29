@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["index.html","d4429d0b14a7541a1100921a5c463267"],["manifest.json","c6259927d1aae52b4a29a4b7c3dfb4fb"],["static/css/main.29b9b044.css","c9537a4ae114093b668eed936dd38af1"],["static/js/main.84142190.js","ad8ddadae850e17ba2d23b01dec29981"],["static/media/candle-transparent.7af750df.png","7af750df95416cf9dd692efc8de087d4"]];
+var precacheConfig = [["index.html","6db75229ca4beee659326a6ad211ce70"],["manifest.json","c6259927d1aae52b4a29a4b7c3dfb4fb"],["static/css/main.db226a3d.css","1eae9c7d54d4261e77a0c121df8f7845"],["static/js/main.25604230.js","056538b2c404a6e954061e6906d70613"],["static/media/candle-transparent.7af750df.png","7af750df95416cf9dd692efc8de087d4"]];
 var cacheName = 'sw-precache-v2-sw-precache-' + (self.registration ? self.registration.scope : '');
 
 
