@@ -2,7 +2,7 @@ import React from 'react';
 
 const BluetoothInfo = (props) => (
 	<div>
-		<h1>Web Bluetooth API</h1>
+		<h3>Web Bluetooth API</h3>
 		<ul className="App-info">
 			<li>Interact with nearby bluetooth devices with a website.</li>
 			<li>Uses Bluetooth Low Energy (Bluetooth 4) and Generic Attribute Profile (GATT).</li>

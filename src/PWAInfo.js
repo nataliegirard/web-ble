@@ -2,7 +2,7 @@ import React from 'react';
 
 const PWAInfo = (props) => (
 	<div>
-		<h1>Progressive Web Apps</h1>
+		<h3>Progressive Web Apps</h3>
 		<ul className="App-info">
 			<li>A native-feeling web app that is fast, discoverable and has offline support.</li>
 			<li>Can be saved to the homescreen for added native feeling.</li>
