@@ -4,6 +4,10 @@ import { MuiThemeProvider }  from 'material-ui/styles';
 import Connection from './Connection';
 import Authentication from './Authentication';
 import Candle from './Candle';
+import SideMenu from './SideMenu';
+import BeaconInfo from './BeaconInfo';
+import PWAInfo from './PWAInfo';
+import BluetoothInfo from './BluetoothInfo';
 import './App.css';
 
 const CANDLE_SERVICE_UUID = 0xFF02;
@@ -23,7 +27,9 @@ const App = React.createClass({
       device: null,
       server: null,
       characteristics: {},
-      message: null
+      message: null,
+      menuVisible: false,
+      view: 'controls'
     }
   },
   componentWillMount() {
@@ -164,6 +170,13 @@ const App = React.createClass({
         console.error('There was an error!', error)
       })
   },
+  handleDisconnect() {
+    this.state.device.gatt.disconnect()
+    this.setState({
+      menuVisible: false,
+      connected: false
+    })
+  },
   handleAuthentication(e) {
     const code = e.target.value
     if (code === '1234') {
@@ -172,18 +185,54 @@ const App = React.createClass({
       })
     }
   },
+  handleOpenMenu() {
+    this.setState({
+      menuVisible: !this.state.menuVisible
+    })
+  },
+  handleViewChange(view) {
+    this.setState({
+      view,
+      menuVisible: false
+    })
+  },
   render() {
+    let content
+    if (this.state.view === 'controls') {
+      if (this.state.authenticated && this.state.connected) {
+        content = <Candle toggleCandle={this.toggleCandle} handleColorChange={this.handleColorChange} color={this.state.color} />
+      } else if (this.state.connected) {
+        content = <Authentication handleAuthentication={this.handleAuthentication} />
+      } else {
+        content = <Connection message={this.state.message} connecting={this.state.connecting} handleConnection={this.handleConnection} />
+      }
+    } else if (this.state.view === 'beacon') {
+      content = <BeaconInfo />
+    } else if (this.state.view === 'pwa') {
+      content = <PWAInfo />
+    } else if(this.state.view === 'bluetooth') {
+      content = <BluetoothInfo />
+    } else {
+      content = <div>Not Found</div>
+    }
+
     return (
       <MuiThemeProvider>
         <div className="App">
-          <AppBar title='Web BLE - Candle Demo'  titleStyle={{fontSize: '20px'}} />
-          {this.state.authenticated && this.state.connected ? (
-            <Candle toggleCandle={this.toggleCandle} handleColorChange={this.handleColorChange} color={this.state.color} />
-          ) : this.state.connected ? (
-            <Authentication handleAuthentication={this.handleAuthentication} />
-          ) : (
-            <Connection message={this.state.message} connecting={this.state.connecting} handleConnection={this.handleConnection} />
-          )}
+          <SideMenu
+            menuVisible={this.state.menuVisible}
+            onRequestChange={(open) => this.setState({menuVisible: open})}
+            handleControls={() => this.handleViewChange('controls')}
+            handleBeacon={() => this.handleViewChange('beacon')}
+            handlePWA={() => this.handleViewChange('pwa')}
+            handleBluetooth={() => this.handleViewChange('bluetooth')}
+            connected={this.state.connected}
+            handleDisconnect={this.handleDisconnect}
+          />
+
+          <AppBar title='Web BLE - Candle Demo'  titleStyle={{fontSize: '20px'}} onLeftIconButtonTouchTap={this.handleOpenMenu} />
+
+          {content}
         </div>
       </MuiThemeProvider>
     );

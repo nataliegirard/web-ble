@@ -11,9 +11,22 @@
   height: 100%;
 }
 
+.App-menu {
+  text-align: left;
+}
+
 .App-message {
   font-size: 16px;
   color: red;
+}
+
+.App-info {
+  text-align: left;
+}
+
+.App-info li {
+  margin: 10px;
+  line-height: 1.3rem;
 }
 
 .App-instructions {
@@ -21,7 +34,7 @@
 }
 
 .App-candle-image {
-  width: 100%;
+  width: 70%;
   cursor: pointer;
   background: var(--candle-color, black);
 }
