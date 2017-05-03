@@ -1,5 +1,3 @@
-# web-ble
-Using the web bluetooth api to interact with ble devices
+# Heart Rate Demo
 
-## Demo with Playbulb Candle
-A demo using a PWA to interact with a Playbulb Candle is available at https://nataliegirard.github.io/web-ble/
+A simple demo application that uses the Web Bluetooth API to get the Heart Rate from nearby Bluetooth devices that support the stardard Heart Rate service.

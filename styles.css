@@ -1,0 +1,47 @@
+#container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+}
+
+#connect {
+  background: #3498db;
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#connect:hover {
+  background: #3cb0fd;
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+#errorMessage {
+	text-align: center;
+	color: red;
+	padding-top: 50px;
+	height: 50px;
+}
+
+#heartRate {
+	animation: heartbeat 1s infinite;
+	font-size: 50px;
+	height: 50px;
+	color: red;
+}
+
+@keyframes heartbeat {
+  92% { transform: scale(1, 1);}
+  94% {  transform: scale(1.2, 1.2); }
+  96% {  transform: scale(1, 1); }
+  98% {  transform: scale(1.1, 1.1); }
+  100% { transform: scale(1, 1);}
+}
