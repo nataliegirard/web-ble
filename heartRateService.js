@@ -36,6 +36,24 @@ export default class BatteryService {
 			})
 	}
 
+	readSensorLocation() {
+		const char = this.characteristics.get('body_sensor_location')
+		return char.readValue()
+			.then(value => {
+				let sensorLocation = value.getUint8(0);
+				switch (sensorLocation) {
+					case 0: return 'Other';
+					case 1: return 'Chest';
+					case 2: return 'Wrist';
+					case 3: return 'Finger';
+					case 4: return 'Hand';
+					case 5: return 'Ear Lobe';
+					case 6: return 'Foot';
+					default: return 'Unknown';
+				}
+			})
+	}
+
 	startHeartRateNotifications() {
 		const char = this.characteristics.get('heart_rate_measurement')
 		return char.startNotifications()

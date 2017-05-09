@@ -19,6 +19,7 @@ connectButton.addEventListener('click', () => {
 	  		connected = true
 	  		errorMessage.textContent = ''
 	  		connectButton.textContent = 'Disconnect'
+	  		heartRate.readSensorLocation().then(location => console.log('reading from ', location))
 	  		return heartRate.startHeartRateNotifications().then(handleHeartRateNotifications)
 	  	})
 	  	.catch(error => {
