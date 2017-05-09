@@ -1,4 +1,4 @@
-export default class BatteryService {
+export default class HeartRateService {
 	constructor() {
 		this.device = null,
 		this.server = null,
