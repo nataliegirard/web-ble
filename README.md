@@ -139,6 +139,8 @@ To make it easier to find your own device (in the sea of Bluetooth devices), it 
 
 Start coding using the code in the [workshop-start](https://github.com/nataliegirard/web-ble/tree/workshop-start) branch. Our goal is to complete something similar to the code in the [workshop-goal](https://github.com/nataliegirard/web-ble/tree/workshop-goal) branch.
 
+Make sure to run `npm install` to install the required packages. You can run a webpack-dev-server by running the `npm run dev` command which will run a server at `http://localhost:8080`.
+
 ### iPhone
 The [LightBlue Explorer](https://itunes.apple.com/ca/app/lightblue-explorer-bluetooth-low-energy/id557428110?mt=8) app on iOS allows the simulation of BLE devices as well as discover and read nearby BLE devices (more on this later). There were some issues getting a connection to the simulator when using an iPhone 7.
 
