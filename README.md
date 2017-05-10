@@ -22,7 +22,7 @@ Characteristics can be of different types but the most common are `read`, `write
 Values are stored in an [ArrayBuffer](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) and received in a [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) (which provides an interface for reading from an ArrayBuffer).
 
 ## Web Bluetooth API
-The Web Bluetooth API is available in Chrome as of version 56 for Chrome OS, Android M, Mac, and Linux (need to `enable-experimental-web-platform-features` flag). The API uses JavaScript [promises](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise) and has a small interface to allow a website to connect to a nearby BLE device, retrieve its services and characteristics, and read or write to those characteristics. 
+The Web Bluetooth API is available in Chrome as of version 56 for Chrome OS, Android M, Mac, Linux and Windows (need to `enable-experimental-web-platform-features` flag). The API uses JavaScript [promises](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise) and has a small interface to allow a website to connect to a nearby BLE device, retrieve its services and characteristics, and read or write to those characteristics. 
 
 ### Request
 For security reasons, in order to discover nearby Bluetooth devices the call to `navigator.bluetooth.requestDevice` must be triggered by a user action. Therefore we must start by using an event listener. 
@@ -48,7 +48,7 @@ navigator.bluetooth.requestDevice({
 navigator.bluetooth.requestDevice({
   filters: [{
     name: 'test device'
-  }),
+  }],
   optionalServices: ['battery_service']
 }).then(device =>{ … })
 ```
@@ -139,8 +139,10 @@ To make it easier to find your own device (in the sea of Bluetooth devices), it 
 
 Start coding using the code in the [workshop-start](https://github.com/nataliegirard/web-ble/tree/workshop-start) branch. Our goal is to complete something similar to the code in the [workshop-goal](https://github.com/nataliegirard/web-ble/tree/workshop-goal) branch.
 
+Make sure to run `npm install` to install the required packages. You can run a webpack-dev-server by running the `npm run dev` command which will run a server at `http://localhost:8080`.
+
 ### iPhone
-The [LightBlue Explorer](https://itunes.apple.com/ca/app/lightblue-explorer-bluetooth-low-energy/id557428110?mt=8) app on iOS allows the simulation of BLE devices as well as discover and read nearby BLE devices (more on this later). 
+The [LightBlue Explorer](https://itunes.apple.com/ca/app/lightblue-explorer-bluetooth-low-energy/id557428110?mt=8) app on iOS allows the simulation of BLE devices as well as discover and read nearby BLE devices (more on this later). There were some issues getting a connection to the simulator when using an iPhone 7.
 
 At the bottom of the first screen there is a link to `Create Virtual Peripheral` which will give a list of pre-configured peripherals. Choose to create a `Heart Rate` peripheral. The heart rate values will change over time automatically.
 
