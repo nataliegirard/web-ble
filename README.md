@@ -8,4 +8,4 @@ The code is located in the `candle-pwa-demo` project folder.
 
 ## TorontoJS Workshop (May 9, 2017)
 The starting point code is located in the [workshop-start](https://github.com/nataliegirard/web-ble/tree/workshop-start) branch.
-The finished code we're aiming towards is located in the [workshop-goal](https://github.com/nataliegirard/web-ble/tree/workshop-goal) branch.
+The finished code we're aiming towards is located in the `torontojs-workshop` project folder.
