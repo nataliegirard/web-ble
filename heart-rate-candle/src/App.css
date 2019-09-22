@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+  height: 100vh;
+}
+
+.App-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  height: 100%;
+}
+
+.App-menu {
+  text-align: left;
+}
+
+.App-message {
+  font-size: 16px;
+  color: red;
+}
+
+.App-info {
+  text-align: left;
+}
+
+.App-info li {
+  margin: 10px;
+  line-height: 1.3rem;
+}
+
+.App-instructions {
+  font-size: 16px;
+}
+
+.App-candle-image {
+  width: 70%;
+  cursor: pointer;
+  background: var(--candle-color, black);
+}
+
+.App-color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 375px;
+}
