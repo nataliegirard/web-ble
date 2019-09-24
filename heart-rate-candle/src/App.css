@@ -41,8 +41,14 @@
 
 .App-color {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 375px;
+}
+
+.HR-button {
+  margin-top: 10px;
+  text-transform: none;
 }
